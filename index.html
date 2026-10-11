@@ -496,8 +496,8 @@
   });
 
   // ---------- Dish suggestion ----------
-  // Looks at which courses are short and suggests something that doesn't
-  // repeat what's already on the spread.
+  // Built-in fallback: looks at which courses are short and suggests something
+  // that doesn't repeat what's already on the spread.
   const sugEl = document.getElementById("suggestion");
   let skipped = new Set();
 
@@ -530,33 +530,56 @@
 
   function hideSuggestion() { sugEl.classList.remove("show"); sugEl.innerHTML = ""; }
 
-  function suggest() {
+  // Live mode asks Claude through the Sheet script; if that isn't set up or
+  // fails, fall back to the built-in ideas above.
+  async function askClaude() {
+    const res = await fetch(SHEET_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "suggest", skip: [...skipped] }),
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || "no suggestion");
+    return { dish: String(data.dish), course: data.course, why: String(data.why || "") };
+  }
+
+  let suggesting = false;
+  async function suggest() {
+    if (suggesting) return;
+    suggesting = true;
     sugEl.classList.add("show");
     sugEl.innerHTML = `<p class="thinking">Looking over the spread<span>.</span><span>.</span><span>.</span></p>`;
-    setTimeout(() => {
-      const s = pickSuggestion();
-      if (!s) {
-        sugEl.innerHTML = `<p class="why">You’ve seen every idea I have. Bring something you love.</p>`;
-        skipped.clear();
-        return;
-      }
-      sugEl.innerHTML = `
-        <div class="from">a little suggestion</div>
-        <div class="dish">${esc(s.dish)}</div>
-        <div class="course-tag">${s.course}</div>
-        <p class="why">${esc(s.why)}</p>
-        <div class="mini">
-          <button type="button" class="btn-primary" id="useSug">Use this</button>
-          <button type="button" class="btn-ghost" id="nextSug">Another idea</button>
-        </div>`;
-      document.getElementById("useSug").onclick = () => {
-        document.getElementById("dish").value = s.dish;
-        document.getElementById("c-" + s.course.toLowerCase()).checked = true;
-        hideSuggestion();
-        document.getElementById(document.getElementById("name").value ? "dish" : "name").focus();
-      };
-      document.getElementById("nextSug").onclick = () => { skipped.add(s.dish); suggest(); };
-    }, 900);
+    let s = null;
+    if (LIVE) {
+      try { s = await askClaude(); } catch (e) { s = null; }
+      if (s && !COURSES.includes(s.course)) s = null;
+    } else {
+      await new Promise(r => setTimeout(r, 900));
+    }
+    if (!s) s = pickSuggestion();
+    suggesting = false;
+
+    if (!s) {
+      sugEl.innerHTML = `<p class="why">You’ve seen every idea I have. Bring something you love.</p>`;
+      skipped.clear();
+      return;
+    }
+    sugEl.innerHTML = `
+      <div class="from">a little suggestion</div>
+      <div class="dish">${esc(s.dish)}</div>
+      <div class="course-tag">${esc(s.course)}</div>
+      <p class="why">${esc(s.why)}</p>
+      <div class="mini">
+        <button type="button" class="btn-primary" id="useSug">Use this</button>
+        <button type="button" class="btn-ghost" id="nextSug">Another idea</button>
+      </div>`;
+    document.getElementById("useSug").onclick = () => {
+      document.getElementById("dish").value = s.dish;
+      document.getElementById("c-" + s.course.toLowerCase()).checked = true;
+      hideSuggestion();
+      document.getElementById(document.getElementById("name").value ? "dish" : "name").focus();
+    };
+    document.getElementById("nextSug").onclick = () => { skipped.add(s.dish); suggest(); };
   }
   document.getElementById("suggestBtn").addEventListener("click", suggest);
 
