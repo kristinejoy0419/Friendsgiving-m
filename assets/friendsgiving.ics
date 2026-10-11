@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Friendsgiving//EN
+BEGIN:VEVENT
+UID:friendsgiving-2026-kristine-daniel
+DTSTAMP:20261011T000000Z
+DTSTART:20261107T130000
+DTEND:20261107T170000
+SUMMARY:Friendsgiving at Kristine & Daniel's
+LOCATION:4198 Rosenbaum Ave
+DESCRIPTION:Please bring a dish you're thankful for.
+END:VEVENT
+END:VCALENDAR

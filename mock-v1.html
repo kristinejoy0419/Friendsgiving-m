@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Friendsgiving at Kristine &amp; Daniel's</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f2ede0;
+    --paper-deep: #e9e3d1;
+    --ink: #4f5538;
+    --ink-soft: #6f7552;
+    --sage: #8f9670;
+    --sage-light: #c9ccb2;
+    --line: #b9bc9c;
+    --white: #fbf9f2;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Crimson Pro", Georgia, serif;
+    font-size: 18px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: lining-nums;
+  }
+
+  /* ---------- Hero: the invite ---------- */
+  .hero {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 16px 0;
+  }
+  .invite {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: url("assets/frame.jpg") center / cover no-repeat;
+    container-type: inline-size;
+    box-shadow: 0 1px 0 var(--line), 0 18px 40px -28px rgba(60, 64, 40, .45);
+  }
+  .invite-text {
+    position: absolute;
+    left: 23%; right: 23%;
+    top: 26%; bottom: 25%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .invite .lead { font-family: "Crimson Pro", serif; font-style: italic; font-size: 2.2cqw; color: var(--ink-soft); }
+  .invite h1 {
+    font-family: "Pinyon Script", cursive; font-weight: 400;
+    font-size: 8.2cqw; line-height: 1.15; margin: 2.4cqw 0 0; color: var(--ink);
+  }
+  .invite .at { font-family: "Cormorant Garamond", serif; font-size: 2.1cqw; margin: 2.2cqw 0 2.6cqw; }
+  .invite .hosts {
+    font-family: "Cormorant Garamond", serif; font-weight: 500;
+    font-size: 3.6cqw; letter-spacing: .05em; margin: 0 0 3.4cqw;
+  }
+  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 2.45cqw; letter-spacing: .04em; }
+  .invite .time, .invite .note { font-style: italic; font-size: 2.3cqw; line-height: 1.35; color: var(--ink-soft); }
+  .invite .addr {
+    font-family: "Cormorant Garamond", serif; font-weight: 500;
+    font-size: 2.45cqw; letter-spacing: .04em; margin-top: 3.4cqw;
+  }
+  .scroll-cue {
+    display: block; text-align: center; margin: 28px auto 0;
+    font-family: "Cormorant Garamond", serif; font-variant: small-caps;
+    letter-spacing: .2em; font-size: 17px; color: var(--ink-soft); text-decoration: none;
+  }
+  .scroll-cue::after { content: "\2193"; display: block; font-size: 18px; margin-top: 2px; }
+
+  /* ---------- Shared section bits ---------- */
+  section.block { max-width: 680px; margin: 0 auto; padding: 56px 16px; }
+  .eyebrow {
+    font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
+    letter-spacing: .32em; font-size: 26px; font-weight: 500; text-align: center; margin: 0;
+  }
+  .sub { text-align: center; font-style: italic; color: var(--ink-soft); margin: 6px 0 28px; }
+  .flourish { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 14px 0 6px; color: var(--sage); }
+  .flourish::before, .flourish::after { content: ""; height: 1px; width: 80px; background: var(--line); }
+
+  /* ---------- Sign-up card ---------- */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    outline: 1px solid var(--line); outline-offset: -7px;
+    border-radius: 140px 140px 10px 10px / 70px 70px 10px 10px;
+    padding: 56px 40px 36px;
+  }
+  .field { margin-bottom: 20px; }
+  label {
+    display: block; font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
+    letter-spacing: .18em; font-size: 17px; font-weight: 600; margin-bottom: 4px;
+  }
+  input[type=text] {
+    width: 100%; border: 0; border-bottom: 1px solid var(--line); background: transparent;
+    font: inherit; font-size: 20px; color: var(--ink); padding: 6px 2px;
+  }
+  input[type=text]::placeholder { color: #a4a88b; font-style: italic; }
+  input[type=text]:focus { outline: none; border-bottom-color: var(--ink); }
+  .courses { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .courses input { position: absolute; opacity: 0; pointer-events: none; }
+  .courses label {
+    margin: 0; cursor: pointer; font-weight: 500; font-size: 16px; letter-spacing: .12em;
+    border: 1px solid var(--line); border-radius: 999px; padding: 4px 14px; color: var(--ink-soft);
+    transition: background .15s, color .15s;
+  }
+  .courses input:checked + label { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .courses input:focus-visible + label { outline: 2px solid var(--sage); outline-offset: 2px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 30px; }
+  button {
+    font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
+    letter-spacing: .2em; font-size: 18px; font-weight: 600; cursor: pointer;
+    padding: 10px 26px; border-radius: 999px; transition: background .15s, color .15s;
+  }
+  .btn-primary { background: var(--ink); color: var(--white); border: 1px solid var(--ink); }
+  .btn-primary:hover { background: #3f442c; }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink-soft); }
+  .btn-ghost:hover { background: var(--paper-deep); }
+  .btn-ghost .spark { font-variant: normal; letter-spacing: 0; font-size: 14px; margin-right: 6px; }
+
+  /* Suggestion note */
+  .suggestion {
+    margin-top: 26px; padding: 20px 22px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    text-align: center; display: none;
+  }
+  .suggestion.show { display: block; animation: fade .35s ease; }
+  .suggestion .from { font-family: "Pinyon Script", cursive; font-size: 26px; color: var(--ink-soft); line-height: 1; }
+  .suggestion .dish { font-family: "Cormorant Garamond", serif; font-size: 26px; font-weight: 600; margin: 8px 0 2px; }
+  .suggestion .course-tag { font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase; letter-spacing: .2em; color: var(--sage); font-size: 15px; }
+  .suggestion .why { font-style: italic; color: var(--ink-soft); margin: 8px 0 14px; }
+  .suggestion .mini { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .suggestion .mini button { font-size: 15px; padding: 6px 18px; }
+  .thinking { font-style: italic; color: var(--ink-soft); }
+  .thinking span { animation: blink 1.2s infinite; }
+  .thinking span:nth-child(2) { animation-delay: .2s; }
+  .thinking span:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- The Spread ---------- */
+  .spread-wrap { background: var(--paper-deep); border-top: 1px solid var(--line); }
+  .tally { text-align: center; font-style: italic; color: var(--ink-soft); margin: 4px 0 36px; }
+  .course { margin-bottom: 40px; }
+  .course h3 {
+    display: flex; align-items: center; gap: 16px; margin: 0 0 12px;
+    font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
+    font-weight: 600; letter-spacing: .26em; font-size: 20px;
+  }
+  .course h3::before, .course h3::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .course h3 .count { font-family: "Crimson Pro", serif; font-variant: normal; letter-spacing: 0; font-style: italic; font-weight: 400; font-size: 16px; color: var(--sage); }
+  .course ul { list-style: none; margin: 0; padding: 0; }
+  .course li {
+    display: flex; align-items: baseline; gap: 10px; padding: 7px 0;
+  }
+  .course li .dish { font-family: "Cormorant Garamond", serif; font-size: 22px; font-weight: 500; }
+  .course li .dots { flex: 1; border-bottom: 1px dotted var(--sage); transform: translateY(-5px); min-width: 20px; }
+  .course li .who { font-style: italic; color: var(--ink-soft); white-space: nowrap; }
+  .course li.new { animation: fade .5s ease; }
+  .course .empty { text-align: center; font-style: italic; color: var(--sage); padding: 6px 0; }
+  .remove {
+    border: 0; background: none; padding: 0 2px; font-size: 18px; color: var(--sage); letter-spacing: 0; cursor: pointer;
+  }
+  .remove:hover { color: var(--ink); }
+
+  footer { text-align: center; padding: 30px 16px 50px; font-family: "Pinyon Script", cursive; font-size: 30px; color: var(--ink-soft); background: var(--paper-deep); }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (max-width: 560px) {
+    body { font-size: 17px; }
+    .hero { padding: 16px 16px 0; }
+    .card { padding: 46px 22px 28px; border-radius: 90px 90px 8px 8px / 50px 50px 8px 8px; }
+    .eyebrow { font-size: 22px; }
+    .course li { flex-wrap: wrap; gap: 0 10px; }
+    .course li .dots { display: none; }
+    .course li .who { width: 100%; order: 3; }
+    .course li .dish { flex: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero: the invite, reproduced as live text inside the floral frame -->
+<header class="hero">
+  <div class="invite" role="img" aria-label="Friendsgiving invitation">
+    <div class="invite-text">
+      <div class="lead">Please join us for</div>
+      <h1>Friendsgiving</h1>
+      <div class="at">at</div>
+      <div class="hosts">KRISTINE &amp; DANIEL’S</div>
+      <div class="date">SATURDAY, NOVEMBER 7TH, 2026</div>
+      <div class="time">at 1 o’clock in the afternoon</div>
+      <div class="addr">4198 ROSENBAUM AVE</div>
+      <div class="note">Please bring a dish you’re thankful for.</div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#bring">add your dish</a>
+</header>
+
+<!-- Sign-up -->
+<section class="block" id="bring">
+  <p class="eyebrow">What You’re Bringing</p>
+  <div class="flourish">&#10086;</div>
+  <p class="sub">Add your dish below so we can keep the table balanced.</p>
+
+  <form class="card" id="dishForm" autocomplete="off">
+    <div class="field">
+      <label for="name">Your name</label>
+      <input type="text" id="name" placeholder="e.g. Maya" required>
+    </div>
+    <div class="field">
+      <label for="dish">Your dish</label>
+      <input type="text" id="dish" placeholder="e.g. Grandma’s cornbread" required>
+    </div>
+    <div class="field">
+      <label id="courseLabel">Course</label>
+      <div class="courses" role="radiogroup" aria-labelledby="courseLabel" id="courseOptions"></div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-primary">Add to the spread</button>
+      <button type="button" class="btn-ghost" id="suggestBtn"><span class="spark" aria-hidden="true">&#10022;</span>Suggest a dish</button>
+    </div>
+
+    <div class="suggestion" id="suggestion" aria-live="polite"></div>
+  </form>
+</section>
+
+<!-- The Spread -->
+<div class="spread-wrap">
+  <section class="block" id="spread">
+    <p class="eyebrow">The Spread</p>
+    <div class="flourish">&#10086;</div>
+    <p class="tally" id="tally"></p>
+    <div id="courses"></div>
+  </section>
+  <footer>See you at the table</footer>
+</div>
+
+<script>
+  const COURSES = ["Appetizers", "Mains", "Sides", "Desserts", "Drinks"];
+
+  // What a balanced table looks like for ~15 guests
+  const TARGET = { Appetizers: 3, Mains: 2, Sides: 5, Desserts: 3, Drinks: 3 };
+
+  const SEED = [
+    { name: "Kristine", dish: "Herb-roasted turkey", course: "Mains" },
+    { name: "Daniel", dish: "Apple cider sangria", course: "Drinks" },
+    { name: "Maya", dish: "Brown butter mashed potatoes", course: "Sides" },
+    { name: "Jordan", dish: "Baked brie with fig jam", course: "Appetizers" },
+    { name: "Priya", dish: "Pumpkin pie", course: "Desserts" },
+    { name: "Sam", dish: "Mac and cheese", course: "Sides" },
+    { name: "Elena", dish: "Pecan pie", course: "Desserts" },
+  ];
+
+  // Mock "AI" pantry: ideas per course, tagged so we can avoid near-duplicates
+  const IDEAS = {
+    Appetizers: [
+      ["Whipped feta with hot honey", "salty"], ["Deviled eggs with crispy shallots", "eggs"],
+      ["Butternut squash soup shooters", "squash"], ["Prosciutto-wrapped dates", "salty"],
+      ["Cranberry-goat cheese crostini", "cheese"],
+    ],
+    Mains: [
+      ["Maple-glazed ham", "pork"], ["Mushroom & chestnut Wellington", "veg"],
+      ["Herbed salmon with lemon", "fish"], ["Stuffed acorn squash (vegetarian)", "veg"],
+    ],
+    Sides: [
+      ["Charred green beans with almonds", "green"], ["Cornbread & sage stuffing", "bread"],
+      ["Maple-roasted Brussels sprouts", "green"], ["Homemade cranberry sauce", "cranberry"],
+      ["Kale salad with pomegranate & pecans", "salad"], ["Honey-glazed carrots", "roots"],
+      ["Parker House rolls", "bread"], ["Sweet potato casserole", "sweet potato"],
+    ],
+    Desserts: [
+      ["Apple crumble with vanilla ice cream", "apple"], ["Chocolate pecan tart", "chocolate"],
+      ["Cranberry-orange bundt cake", "cake"], ["Pumpkin cheesecake bars", "pumpkin"],
+    ],
+    Drinks: [
+      ["Hot mulled wine", "wine"], ["Sparkling cranberry spritz (zero-proof)", "na"],
+      ["Bourbon apple cider punch", "spirits"], ["Chai with oat milk", "warm"],
+    ],
+  };
+
+  const STORE_KEY = "friendsgiving-spread-v1";
+  let entries = load();
+  let lastAddedId = null;
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return SEED.map((e, i) => ({ ...e, id: "seed" + i, seed: true }));
+  }
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(entries)); } catch (e) {}
+  }
+
+  // Course pills
+  const optionsEl = document.getElementById("courseOptions");
+  COURSES.forEach((c, i) => {
+    const id = "c-" + c.toLowerCase();
+    optionsEl.insertAdjacentHTML("beforeend",
+      `<input type="radio" name="course" id="${id}" value="${c}" ${i === 0 ? "required" : ""}><label for="${id}">${c}</label>`);
+  });
+
+  const esc = s => s.replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+
+  function render() {
+    const wrap = document.getElementById("courses");
+    wrap.innerHTML = COURSES.map(c => {
+      const items = entries.filter(e => e.course === c);
+      const list = items.length
+        ? `<ul>${items.map(e => `
+            <li class="${e.id === lastAddedId ? "new" : ""}">
+              <span class="dish">${esc(e.dish)}</span>
+              <span class="dots"></span>
+              <span class="who">${esc(e.name)}</span>
+              ${e.seed ? "" : `<button class="remove" data-id="${e.id}" aria-label="Remove ${esc(e.dish)}">&times;</button>`}
+            </li>`).join("")}</ul>`
+        : `<p class="empty">Nothing here yet — up for grabs.</p>`;
+      return `<div class="course"><h3>${c} <span class="count">${items.length}</span></h3>${list}</div>`;
+    }).join("");
+
+    const n = entries.length;
+    const people = new Set(entries.map(e => e.name.trim().toLowerCase())).size;
+    document.getElementById("tally").textContent =
+      `${n} dish${n === 1 ? "" : "es"} from ${people} friend${people === 1 ? "" : "s"}, so far`;
+  }
+
+  document.getElementById("courses").addEventListener("click", e => {
+    const btn = e.target.closest(".remove");
+    if (!btn) return;
+    entries = entries.filter(x => x.id !== btn.dataset.id);
+    save(); render();
+  });
+
+  document.getElementById("dishForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const dish = document.getElementById("dish").value.trim();
+    const course = (document.querySelector("input[name=course]:checked") || {}).value;
+    if (!name || !dish || !course) return;
+    const entry = { id: "u" + Date.now(), name, dish, course };
+    entries.push(entry);
+    lastAddedId = entry.id;
+    save(); render();
+    document.getElementById("dish").value = "";
+    document.querySelectorAll("input[name=course]").forEach(r => r.checked = false);
+    hideSuggestion();
+    document.getElementById("spread").scrollIntoView({ behavior: "smooth" });
+  });
+
+  // ---------- Mock AI suggestion ----------
+  // In the real build this would call an LLM with the current spread; here it
+  // reasons over the same data locally so the interaction can be previewed.
+  const sugEl = document.getElementById("suggestion");
+  let skipped = new Set();
+
+  function pickSuggestion() {
+    const counts = Object.fromEntries(COURSES.map(c => [c, entries.filter(e => e.course === c).length]));
+    const gaps = COURSES
+      .map(c => ({ c, gap: TARGET[c] - counts[c], ratio: counts[c] / TARGET[c] }))
+      .sort((a, b) => a.ratio - b.ratio);
+
+    const taken = entries.map(e => e.dish.toLowerCase()).join(" | ");
+    for (const { c, gap } of gaps) {
+      const options = IDEAS[c].filter(([dish, tag]) =>
+        !skipped.has(dish) && !taken.includes(tag) && !taken.includes(dish.toLowerCase().split(" ")[0]));
+      if (options.length) {
+        const [dish] = options[Math.floor(Math.random() * options.length)];
+        return { dish, course: c, why: explain(c, counts, gap) };
+      }
+    }
+    return null;
+  }
+
+  function explain(c, counts, gap) {
+    const has = counts[c];
+    const others = entries.filter(e => e.course === c).map(e => e.dish.toLowerCase());
+    if (has === 0) return `No one has claimed ${c.toLowerCase()} yet, so this would fill an empty spot on the table.`;
+    const list = others.slice(0, 2).join(" and ");
+    if (gap > 0) return `${c} are a little light (${has} so far: ${list}). This goes well with them without doubling up.`;
+    return `Everything’s well covered, so here’s one more ${c.toLowerCase().replace(/s$/, "")} that doesn’t repeat ${list}.`;
+  }
+
+  function hideSuggestion() { sugEl.classList.remove("show"); sugEl.innerHTML = ""; }
+
+  function suggest() {
+    sugEl.classList.add("show");
+    sugEl.innerHTML = `<p class="thinking">Looking over the spread<span>.</span><span>.</span><span>.</span></p>`;
+    setTimeout(() => {
+      const s = pickSuggestion();
+      if (!s) {
+        sugEl.innerHTML = `<p class="why">You’ve seen every idea I have. Bring something you love.</p>`;
+        skipped.clear();
+        return;
+      }
+      sugEl.innerHTML = `
+        <div class="from">a little suggestion</div>
+        <div class="dish">${esc(s.dish)}</div>
+        <div class="course-tag">${s.course}</div>
+        <p class="why">${esc(s.why)}</p>
+        <div class="mini">
+          <button type="button" class="btn-primary" id="useSug">Use this</button>
+          <button type="button" class="btn-ghost" id="nextSug">Another idea</button>
+        </div>`;
+      document.getElementById("useSug").onclick = () => {
+        document.getElementById("dish").value = s.dish;
+        document.getElementById("c-" + s.course.toLowerCase()).checked = true;
+        hideSuggestion();
+        document.getElementById(document.getElementById("name").value ? "dish" : "name").focus();
+      };
+      document.getElementById("nextSug").onclick = () => { skipped.add(s.dish); suggest(); };
+    }, 900);
+  }
+  document.getElementById("suggestBtn").addEventListener("click", suggest);
+
+  render();
+</script>
+</body>
+</html>
