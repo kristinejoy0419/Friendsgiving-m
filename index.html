@@ -125,6 +125,7 @@
   .stepper input::-webkit-inner-spin-button, .stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
   .stepper input:focus { outline: none; }
   .stepper:focus-within { border-bottom-color: var(--ink); }
+  label .incl { font-family: "Crimson Pro", serif; font-variant: normal; text-transform: none; font-style: italic; font-weight: 400; letter-spacing: 0; font-size: 15px; color: var(--sage); white-space: nowrap; }
   .hint { font-style: italic; font-size: 15px; color: var(--sage); margin-top: 4px; }
   .courses { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
   .courses input { position: absolute; opacity: 0; pointer-events: none; }
@@ -205,6 +206,8 @@
 
   @media (max-width: 560px) {
     body { font-size: 17px; }
+    .row { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .stepper { width: max-content; }
     .invite { aspect-ratio: 9 / 13; background-image: url("assets/hero-tall.jpg"); }
     .invite .lead { font-size: 3.9cqw; }
     .invite h1 { font-size: 15.5cqw; margin: 1cqw 0 4cqw; }
@@ -260,7 +263,7 @@
         <input type="text" id="name" placeholder="e.g. Maya" required>
       </div>
       <div>
-        <label for="party">Total in your party</label>
+        <label for="party">Total in your party <span class="incl">(including yourself)</span></label>
         <div class="stepper">
           <button type="button" data-step="-1" aria-label="One fewer">&minus;</button>
           <input type="number" id="party" min="1" max="12" value="1" inputmode="numeric">
