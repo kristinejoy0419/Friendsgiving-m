@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Friendsgiving Ribbon Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #faf6ec;
+    --paper-deep: #f1ecdd;
+    --ink: #4f5538;
+    --ink-soft: #6f7552;
+    --sage: #8f9670;
+    --sage-light: #c9ccb2;
+    --line: #b9bc9c;
+    --white: #fffdf8;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Crimson Pro", Georgia, serif;
+    font-size: 18px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: lining-nums;
+  }
+
+  /* ---------- Layout: invite pinned on the left, the party on the right ---------- */
+  .layout {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 clamp(24px, 4vw, 64px);
+    max-width: 1240px; margin: 0 auto; padding-inline: 16px; align-items: start;
+  }
+  .hero { position: sticky; top: 20px; padding-block: 20px; }
+  .invite {
+    position: relative;
+    width: min(42vw, calc((100vh - 40px) * 0.558), 540px);
+    aspect-ratio: 768 / 1376;
+    max-width: 100%;
+    background: url("assets/hero-ribbon.jpg") center / cover no-repeat;
+    container-type: inline-size;
+    box-shadow: 0 1px 0 var(--line), 0 26px 50px -34px rgba(60, 64, 40, .55);
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    padding-top: 52%;
+    text-align: center;
+  }
+  .invite .lead { font-style: italic; font-size: 3.9cqw; color: var(--ink-soft); }
+  .invite h1 {
+    font-family: "Pinyon Script", cursive; font-weight: 400;
+    font-size: 12.8cqw; line-height: 1.1; margin: 1cqw 0 4cqw; color: var(--ink);
+  }
+  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 4.1cqw; letter-spacing: .07em; }
+  .invite .date span { display: block; font-size: 1.3em; letter-spacing: .04em; margin: .5cqw 0; }
+  .invite .time { font-style: italic; font-size: 3.7cqw; color: var(--ink-soft); }
+  .scroll-cue { display: none; }
+  .content { min-width: 0; padding-block: 20px; }
+  .content section.block { padding-inline: 0; }
+  .spread-wrap { border: 1px solid var(--line); border-radius: 4px; }
+  .spread-wrap section.block { padding-inline: clamp(16px, 4vw, 48px); }
+  .details { flex-direction: column; margin-top: 36px; }
+
+  /* Add to calendar */
+  .cal { position: relative; margin-top: 3cqw; }
+  .cal-btn { font-size: clamp(13px, 1.35cqw, 17px); padding: .6em 1.6em; }
+  .cal-btn .ico { font-variant: normal; margin-right: .5em; }
+  .cal-menu {
+    position: absolute; left: 50%; top: calc(100% + 8px); transform: translateX(-50%);
+    background: var(--white); border: 1px solid var(--line); border-radius: 12px;
+    padding: 6px; min-width: 210px; z-index: 5; text-align: left;
+    box-shadow: 0 16px 30px -18px rgba(60, 64, 40, .5);
+  }
+  .cal-menu a {
+    display: block; padding: 8px 14px; border-radius: 8px; text-decoration: none; color: var(--ink);
+    font-family: "Cormorant Garamond", serif; font-size: 18px; font-weight: 500;
+  }
+  .cal-menu a:hover, .cal-menu a:focus-visible { background: var(--paper-deep); outline: none; }
+  .cal-menu small { display: block; font-family: "Crimson Pro", serif; font-style: italic; font-size: 14px; color: var(--ink-soft); }
+
+  .details {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 22px;
+    margin: 22px auto 0; text-align: center; color: var(--ink-soft);
+  }
+  .details .place { font-family: "Cormorant Garamond", serif; font-weight: 500; letter-spacing: .14em; font-size: 16px; color: var(--ink); }
+  .details .note { font-style: italic; }
+
+  .scroll-cue {
+    display: block; text-align: center; margin: 28px auto 0;
+    font-family: "Cormorant Garamond", serif; font-variant: small-caps;
+    letter-spacing: .2em; font-size: 17px; color: var(--ink-soft); text-decoration: none;
+  }
+  .scroll-cue::after { content: "\2193"; display: block; font-size: 18px; margin-top: 2px; }
+
+  /* ---------- Shared section bits ---------- */
+  section.block { max-width: 680px; margin: 0 auto; padding: 56px 16px; }
+  .eyebrow {
+    font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
+    letter-spacing: .32em; font-size: 26px; font-weight: 500; text-align: center; margin: 0;
+  }
+  .sub { text-align: center; font-style: italic; color: var(--ink-soft); margin: 6px 0 28px; }
+  .flourish { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 14px 0 6px; color: var(--sage); }
+  .flourish::before, .flourish::after { content: ""; height: 1px; width: 80px; background: var(--line); }
+
+  /* ---------- Sign-up card ---------- */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    outline: 1px solid var(--line); outline-offset: -7px;
+    border-radius: 140px 140px 10px 10px / 70px 70px 10px 10px;
+    padding: 56px 40px 36px;
+  }
+  .field { margin-bottom: 20px; }
+  label {
+    display: block; font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
+    letter-spacing: .18em; font-size: 17px; font-weight: 600; margin-bottom: 4px;
+  }
+  input[type=text] {
+    width: 100%; border: 0; border-bottom: 1px solid var(--line); background: transparent;
+    font: inherit; font-size: 20px; color: var(--ink); padding: 6px 2px;
+  }
+  input[type=text]::placeholder { color: #a4a88b; font-style: italic; }
+  input[type=text]:focus { outline: none; border-bottom-color: var(--ink); }
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; }
+  .row > * { min-width: 0; }
+  .stepper { display: flex; align-items: center; border-bottom: 1px solid var(--line); }
+  .stepper button {
+    border: 0; background: none; padding: 4px 10px; font-size: 22px; letter-spacing: 0; color: var(--ink-soft); border-radius: 6px;
+  }
+  .stepper button:hover { color: var(--ink); background: var(--paper-deep); }
+  .stepper input {
+    width: 2.6em; padding: 6px 0; text-align: center; border: 0; background: transparent; font: inherit; font-size: 20px; color: var(--ink);
+    -moz-appearance: textfield; appearance: textfield;
+  }
+  .stepper input::-webkit-inner-spin-button, .stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  .stepper input:focus { outline: none; }
+  .stepper:focus-within { border-bottom-color: var(--ink); }
+  .hint { font-style: italic; font-size: 15px; color: var(--sage); margin-top: 4px; }
+  .courses { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .courses input { position: absolute; opacity: 0; pointer-events: none; }
+  .courses label {
+    margin: 0; cursor: pointer; font-weight: 500; font-size: 16px; letter-spacing: .12em;
+    border: 1px solid var(--line); border-radius: 999px; padding: 4px 14px; color: var(--ink-soft);
+    transition: background .15s, color .15s;
+  }
+  .courses input:checked + label { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .courses input:focus-visible + label { outline: 2px solid var(--sage); outline-offset: 2px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 30px; }
+  button {
+    font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
+    letter-spacing: .2em; font-size: 18px; font-weight: 600; cursor: pointer;
+    padding: 10px 26px; border-radius: 999px; transition: background .15s, color .15s;
+  }
+  .btn-primary { background: var(--ink); color: var(--white); border: 1px solid var(--ink); }
+  .btn-primary:hover { background: #3f442c; }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink-soft); }
+  .btn-ghost:hover { background: var(--paper-deep); }
+  .btn-ghost .spark { font-variant: normal; letter-spacing: 0; font-size: 14px; margin-right: 6px; }
+
+  /* Suggestion note */
+  .suggestion {
+    margin-top: 26px; padding: 20px 22px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    text-align: center; display: none;
+  }
+  .suggestion.show { display: block; animation: fade .35s ease; }
+  .suggestion .from { font-family: "Pinyon Script", cursive; font-size: 26px; color: var(--ink-soft); line-height: 1; }
+  .suggestion .dish { font-family: "Cormorant Garamond", serif; font-size: 26px; font-weight: 600; margin: 8px 0 2px; }
+  .suggestion .course-tag { font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase; letter-spacing: .2em; color: var(--sage); font-size: 15px; }
+  .suggestion .why { font-style: italic; color: var(--ink-soft); margin: 8px 0 14px; }
+  .suggestion .mini { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .suggestion .mini button { font-size: 15px; padding: 6px 18px; }
+  .thinking { font-style: italic; color: var(--ink-soft); }
+  .thinking span { animation: blink 1.2s infinite; }
+  .thinking span:nth-child(2) { animation-delay: .2s; }
+  .thinking span:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- The Spread ---------- */
+  .spread-wrap { background: var(--paper-deep); border-top: 1px solid var(--line); }
+  .tally { text-align: center; font-style: italic; color: var(--ink-soft); margin: 4px 0 36px; }
+  .course { margin-bottom: 40px; }
+  .course h3 {
+    display: flex; align-items: center; gap: 16px; margin: 0 0 12px;
+    font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
+    font-weight: 600; letter-spacing: .26em; font-size: 20px;
+  }
+  .course h3::before, .course h3::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .course h3 .count { font-family: "Crimson Pro", serif; font-variant: normal; letter-spacing: 0; font-style: italic; font-weight: 400; font-size: 16px; color: var(--sage); }
+  .course ul { list-style: none; margin: 0; padding: 0; }
+  .course li {
+    display: flex; align-items: baseline; gap: 10px; padding: 7px 0;
+  }
+  .course li .dish { font-family: "Cormorant Garamond", serif; font-size: 22px; font-weight: 500; }
+  .course li .dots { flex: 1; border-bottom: 1px dotted var(--sage); transform: translateY(-5px); min-width: 20px; }
+  .course li .who { font-style: italic; color: var(--ink-soft); white-space: nowrap; }
+  .course li.new { animation: fade .5s ease; }
+  .course .empty { text-align: center; font-style: italic; color: var(--sage); padding: 6px 0; }
+  .remove {
+    border: 0; background: none; padding: 0 2px; font-size: 18px; color: var(--sage); letter-spacing: 0; cursor: pointer;
+  }
+  .remove:hover { color: var(--ink); }
+
+  footer {
+    text-align: center; padding: 30px 16px 60px; background: var(--paper-deep);
+    font-family: "Pinyon Script", cursive; font-size: clamp(28px, 4.4vw, 40px); line-height: 1.3; color: var(--ink-soft);
+    text-wrap: balance;
+  }
+  footer .n { font-family: "Cormorant Garamond", serif; font-size: .8em; font-weight: 600; color: var(--ink); padding: 0 .1em; }
+  .course li .party { font-style: normal; font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase; letter-spacing: .1em; font-size: 15px; color: var(--sage); }
+
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    .hero { position: static; }
+    .invite { width: min(100%, 520px); margin: 0 auto; }
+    .scroll-cue { display: block; }
+  }
+  @media (max-width: 560px) {
+    body { font-size: 17px; }
+    .cal-btn { font-size: 14px; }
+    .card { padding: 46px 22px 28px; border-radius: 90px 90px 8px 8px / 50px 50px 8px 8px; }
+    .eyebrow { font-size: 22px; }
+    .course li { flex-wrap: wrap; gap: 0 10px; }
+    .course li .dots { display: none; }
+    .course li .who { width: 100%; order: 3; }
+    .course li .dish { flex: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero: the invite, reproduced as live text inside the floral frame -->
+<div class="layout">
+<aside class="hero">
+  <div class="invite">
+    <div class="lead">Please join us for</div>
+    <h1>Friendsgiving</h1>
+    <div class="date">SATURDAY<span>NOVEMBER 7TH, 2026</span></div>
+    <div class="time">at 1 o’clock in the afternoon</div>
+    <div class="cal">
+      <button type="button" class="btn-ghost cal-btn" id="calBtn" aria-expanded="false" aria-controls="calMenu"><span class="ico" aria-hidden="true">&#10022;</span>Add to calendar</button>
+      <div class="cal-menu" id="calMenu" hidden>
+        <a id="calGoogle" target="_blank" rel="noopener">Google Calendar</a>
+        <a id="calOutlook" target="_blank" rel="noopener">Outlook</a>
+        <a id="calIcs" href="assets/friendsgiving.ics" target="_blank" rel="noopener">Apple Calendar<small>or any app that opens .ics files</small></a>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#bring">add your dish</a>
+</aside>
+
+<main class="content">
+  <div class="details">
+    <span class="place">KRISTINE &amp; DANIEL’S · 4198 ROSENBAUM AVE</span>
+    <span class="note">Please bring a dish you’re thankful for.</span>
+  </div>
+
+<!-- Sign-up -->
+<section class="block" id="bring">
+  <p class="eyebrow">What You’re Bringing</p>
+  <div class="flourish">&#10086;</div>
+  <p class="sub">Add your dish below so we can keep the table balanced.</p>
+
+  <form class="card" id="dishForm" autocomplete="off">
+    <div class="row field">
+      <div>
+        <label for="name">Your name</label>
+        <input type="text" id="name" placeholder="e.g. Maya" required>
+      </div>
+      <div>
+        <label for="party">Total in your party</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" aria-label="One fewer">&minus;</button>
+          <input type="number" id="party" min="1" max="12" value="1" inputmode="numeric">
+          <button type="button" data-step="1" aria-label="One more">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="dish">Your dish</label>
+      <input type="text" id="dish" placeholder="e.g. Grandma’s cornbread" required>
+    </div>
+    <div class="field">
+      <label id="courseLabel">Course</label>
+      <div class="courses" role="radiogroup" aria-labelledby="courseLabel" id="courseOptions"></div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-primary">Add to the spread</button>
+      <button type="button" class="btn-ghost" id="suggestBtn"><span class="spark" aria-hidden="true">&#10022;</span>Suggest a dish</button>
+    </div>
+
+    <div class="suggestion" id="suggestion" aria-live="polite"></div>
+  </form>
+</section>
+
+<!-- The Spread -->
+<div class="spread-wrap">
+  <section class="block" id="spread">
+    <p class="eyebrow">The Spread</p>
+    <div class="flourish">&#10086;</div>
+    <p class="tally" id="tally"></p>
+    <div id="courses"></div>
+  </section>
+  <footer id="footer">See you at the table</footer>
+</div>
+</main>
+</div>
+
+<script>
+  const COURSES = ["Appetizers", "Mains", "Sides", "Desserts", "Drinks"];
+
+  // What a balanced table looks like for ~15 guests
+  const TARGET = { Appetizers: 3, Mains: 2, Sides: 5, Desserts: 3, Drinks: 3 };
+
+  const SEED = [
+    { name: "Kristine", dish: "Herb-roasted turkey", course: "Mains", party: 1 },
+    { name: "Daniel", dish: "Apple cider sangria", course: "Drinks", party: 1 },
+    { name: "Maya", dish: "Brown butter mashed potatoes", course: "Sides", party: 2 },
+    { name: "Jordan", dish: "Baked brie with fig jam", course: "Appetizers", party: 1 },
+    { name: "Priya", dish: "Pumpkin pie", course: "Desserts", party: 3 },
+    { name: "Sam", dish: "Mac and cheese", course: "Sides", party: 2 },
+    { name: "Elena", dish: "Pecan pie", course: "Desserts", party: 2 },
+  ];
+
+  // Mock "AI" pantry: ideas per course, tagged so we can avoid near-duplicates
+  const IDEAS = {
+    Appetizers: [
+      ["Whipped feta with hot honey", "salty"], ["Deviled eggs with crispy shallots", "eggs"],
+      ["Butternut squash soup shooters", "squash"], ["Prosciutto-wrapped dates", "salty"],
+      ["Cranberry-goat cheese crostini", "cheese"],
+    ],
+    Mains: [
+      ["Maple-glazed ham", "pork"], ["Mushroom & chestnut Wellington", "veg"],
+      ["Herbed salmon with lemon", "fish"], ["Stuffed acorn squash (vegetarian)", "veg"],
+    ],
+    Sides: [
+      ["Charred green beans with almonds", "green"], ["Cornbread & sage stuffing", "bread"],
+      ["Maple-roasted Brussels sprouts", "green"], ["Homemade cranberry sauce", "cranberry"],
+      ["Kale salad with pomegranate & pecans", "salad"], ["Honey-glazed carrots", "roots"],
+      ["Parker House rolls", "bread"], ["Sweet potato casserole", "sweet potato"],
+    ],
+    Desserts: [
+      ["Apple crumble with vanilla ice cream", "apple"], ["Chocolate pecan tart", "chocolate"],
+      ["Cranberry-orange bundt cake", "cake"], ["Pumpkin cheesecake bars", "pumpkin"],
+    ],
+    Drinks: [
+      ["Hot mulled wine", "wine"], ["Sparkling cranberry spritz (zero-proof)", "na"],
+      ["Bourbon apple cider punch", "spirits"], ["Chai with oat milk", "warm"],
+    ],
+  };
+
+  const STORE_KEY = "friendsgiving-spread-v2";
+  let entries = load();
+  let lastAddedId = null;
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return SEED.map((e, i) => ({ ...e, id: "seed" + i, seed: true }));
+  }
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(entries)); } catch (e) {}
+  }
+
+  // Course pills
+  const optionsEl = document.getElementById("courseOptions");
+  COURSES.forEach((c, i) => {
+    const id = "c-" + c.toLowerCase();
+    optionsEl.insertAdjacentHTML("beforeend",
+      `<input type="radio" name="course" id="${id}" value="${c}" ${i === 0 ? "required" : ""}><label for="${id}">${c}</label>`);
+  });
+
+  const esc = s => s.replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+
+  const headcount = () => entries.reduce((sum, e) => sum + (Number(e.party) || 1), 0);
+
+  // Party size stepper
+  const partyEl = document.getElementById("party");
+  const clampParty = v => Math.min(12, Math.max(1, Math.round(Number(v) || 1)));
+  document.querySelectorAll(".stepper button").forEach(b =>
+    b.addEventListener("click", () => { partyEl.value = clampParty(Number(partyEl.value) + Number(b.dataset.step)); }));
+  partyEl.addEventListener("change", () => { partyEl.value = clampParty(partyEl.value); });
+
+  function render() {
+    const wrap = document.getElementById("courses");
+    wrap.innerHTML = COURSES.map(c => {
+      const items = entries.filter(e => e.course === c);
+      const list = items.length
+        ? `<ul>${items.map(e => `
+            <li class="${e.id === lastAddedId ? "new" : ""}">
+              <span class="dish">${esc(e.dish)}</span>
+              <span class="dots"></span>
+              <span class="who">${esc(e.name)}${(e.party || 1) > 1 ? ` <span class="party">party of ${e.party}</span>` : ""}</span>
+              ${e.seed ? "" : `<button class="remove" data-id="${e.id}" aria-label="Remove ${esc(e.dish)}">&times;</button>`}
+            </li>`).join("")}</ul>`
+        : `<p class="empty">Nothing here yet — up for grabs.</p>`;
+      return `<div class="course"><h3>${c} <span class="count">${items.length}</span></h3>${list}</div>`;
+    }).join("");
+
+    const n = entries.length;
+    const guests = headcount();
+    document.getElementById("tally").textContent =
+      `${n} dish${n === 1 ? "" : "es"} and ${guests} guest${guests === 1 ? "" : "s"}, so far`;
+    document.getElementById("footer").innerHTML =
+      `See you at the table with <span class="n">${guests}</span> of your favorite people`;
+  }
+
+  document.getElementById("courses").addEventListener("click", e => {
+    const btn = e.target.closest(".remove");
+    if (!btn) return;
+    entries = entries.filter(x => x.id !== btn.dataset.id);
+    save(); render();
+  });
+
+  document.getElementById("dishForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const dish = document.getElementById("dish").value.trim();
+    const course = (document.querySelector("input[name=course]:checked") || {}).value;
+    if (!name || !dish || !course) return;
+    const entry = { id: "u" + Date.now(), name, dish, course, party: clampParty(partyEl.value) };
+    entries.push(entry);
+    lastAddedId = entry.id;
+    save(); render();
+    document.getElementById("dish").value = "";
+    partyEl.value = 1;
+    document.querySelectorAll("input[name=course]").forEach(r => r.checked = false);
+    hideSuggestion();
+    document.getElementById("spread").scrollIntoView({ behavior: "smooth" });
+  });
+
+  // ---------- Mock AI suggestion ----------
+  // In the real build this would call an LLM with the current spread; here it
+  // reasons over the same data locally so the interaction can be previewed.
+  const sugEl = document.getElementById("suggestion");
+  let skipped = new Set();
+
+  function pickSuggestion() {
+    const counts = Object.fromEntries(COURSES.map(c => [c, entries.filter(e => e.course === c).length]));
+    const gaps = COURSES
+      .map(c => ({ c, gap: TARGET[c] - counts[c], ratio: counts[c] / TARGET[c] }))
+      .sort((a, b) => a.ratio - b.ratio);
+
+    const taken = entries.map(e => e.dish.toLowerCase()).join(" | ");
+    for (const { c, gap } of gaps) {
+      const options = IDEAS[c].filter(([dish, tag]) =>
+        !skipped.has(dish) && !taken.includes(tag) && !taken.includes(dish.toLowerCase().split(" ")[0]));
+      if (options.length) {
+        const [dish] = options[Math.floor(Math.random() * options.length)];
+        return { dish, course: c, why: explain(c, counts, gap) };
+      }
+    }
+    return null;
+  }
+
+  function explain(c, counts, gap) {
+    const has = counts[c];
+    const others = entries.filter(e => e.course === c).map(e => e.dish.toLowerCase());
+    if (has === 0) return `No one has claimed ${c.toLowerCase()} yet, so this would fill an empty spot on the table.`;
+    const list = others.slice(0, 2).join(" and ");
+    if (gap > 0) return `${c} are a little light (${has} so far: ${list}). This goes well with them without doubling up.`;
+    return `Everything’s well covered, so here’s one more ${c.toLowerCase().replace(/s$/, "")} that doesn’t repeat ${list}.`;
+  }
+
+  function hideSuggestion() { sugEl.classList.remove("show"); sugEl.innerHTML = ""; }
+
+  function suggest() {
+    sugEl.classList.add("show");
+    sugEl.innerHTML = `<p class="thinking">Looking over the spread<span>.</span><span>.</span><span>.</span></p>`;
+    setTimeout(() => {
+      const s = pickSuggestion();
+      if (!s) {
+        sugEl.innerHTML = `<p class="why">You’ve seen every idea I have. Bring something you love.</p>`;
+        skipped.clear();
+        return;
+      }
+      sugEl.innerHTML = `
+        <div class="from">a little suggestion</div>
+        <div class="dish">${esc(s.dish)}</div>
+        <div class="course-tag">${s.course}</div>
+        <p class="why">${esc(s.why)}</p>
+        <div class="mini">
+          <button type="button" class="btn-primary" id="useSug">Use this</button>
+          <button type="button" class="btn-ghost" id="nextSug">Another idea</button>
+        </div>`;
+      document.getElementById("useSug").onclick = () => {
+        document.getElementById("dish").value = s.dish;
+        document.getElementById("c-" + s.course.toLowerCase()).checked = true;
+        hideSuggestion();
+        document.getElementById(document.getElementById("name").value ? "dish" : "name").focus();
+      };
+      document.getElementById("nextSug").onclick = () => { skipped.add(s.dish); suggest(); };
+    }, 900);
+  }
+  document.getElementById("suggestBtn").addEventListener("click", suggest);
+
+  // ---------- Add to calendar ----------
+  const EVENT = {
+    title: "Friendsgiving at Kristine & Daniel's",
+    start: "20261107T130000", end: "20261107T170000",
+    location: "4198 Rosenbaum Ave",
+    details: "Please bring a dish you're thankful for.",
+  };
+  const enc = encodeURIComponent;
+  document.getElementById("calGoogle").href =
+    `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${enc(EVENT.title)}&dates=${EVENT.start}/${EVENT.end}&location=${enc(EVENT.location)}&details=${enc(EVENT.details)}`;
+  document.getElementById("calOutlook").href =
+    `https://outlook.live.com/calendar/0/action/compose?subject=${enc(EVENT.title)}&startdt=2026-11-07T13:00:00&enddt=2026-11-07T17:00:00&location=${enc(EVENT.location)}&body=${enc(EVENT.details)}`;
+
+  const calBtn = document.getElementById("calBtn"), calMenu = document.getElementById("calMenu");
+  calBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    calMenu.hidden = !calMenu.hidden;
+    calBtn.setAttribute("aria-expanded", String(!calMenu.hidden));
+  });
+  document.addEventListener("click", e => {
+    if (!calMenu.hidden && !calMenu.contains(e.target)) { calMenu.hidden = true; calBtn.setAttribute("aria-expanded", "false"); }
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !calMenu.hidden) { calMenu.hidden = true; calBtn.setAttribute("aria-expanded", "false"); calBtn.focus(); }
+  });
+
+  render();
+</script>
+</body>
+</html>
