@@ -333,15 +333,6 @@
   // What a balanced table looks like for ~15 guests
   const TARGET = { Appetizers: 3, Mains: 2, Sides: 5, Desserts: 3, Drinks: 3 };
 
-  const SEED = [
-    { name: "Kristine", dish: "Herb-roasted turkey", course: "Mains", party: 1 },
-    { name: "Daniel", dish: "Apple cider sangria", course: "Drinks", party: 1 },
-    { name: "Maya", dish: "Brown butter mashed potatoes", course: "Sides", party: 2 },
-    { name: "Jordan", dish: "Baked brie with fig jam", course: "Appetizers", party: 1 },
-    { name: "Priya", dish: "Pumpkin pie", course: "Desserts", party: 3 },
-    { name: "Sam", dish: "Mac and cheese", course: "Sides", party: 2 },
-    { name: "Elena", dish: "Pecan pie", course: "Desserts", party: 2 },
-  ];
 
   // Mock "AI" pantry: ideas per course, tagged so we can avoid near-duplicates
   const IDEAS = {
@@ -372,8 +363,8 @@
 
   // ---------- Data ----------
   // Live mode: sign-ups are read from and written to the Google Sheet behind
-  // config.js. Without a Sheet URL the page runs as a preview with example
-  // entries kept in this browser only.
+  // config.js. Without a Sheet URL the page runs as a preview whose entries
+  // stay in this browser only.
   const SHEET_URL = ((window.FRIENDSGIVING_CONFIG || {}).sheetUrl || "").trim();
   const LIVE = Boolean(SHEET_URL);
   const STORE_KEY = "friendsgiving-preview-v1";
@@ -386,7 +377,7 @@
       const raw = localStorage.getItem(STORE_KEY);
       if (raw) return JSON.parse(raw);
     } catch (e) {}
-    return SEED.map((e, i) => ({ ...e, id: "seed" + i }));
+    return [];
   }
   function savePreview() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(entries)); } catch (e) {}
@@ -459,8 +450,9 @@
 
     const n = entries.length;
     const guests = headcount();
-    document.getElementById("tally").textContent =
-      `${n} dish${n === 1 ? "" : "es"} and ${guests} guest${guests === 1 ? "" : "s"}, so far`;
+    document.getElementById("tally").textContent = n
+      ? `${n} dish${n === 1 ? "" : "es"} and ${guests} guest${guests === 1 ? "" : "s"}, so far`
+      : "No dishes yet. Be the first to add one!";
     document.getElementById("footer").innerHTML = guests
       ? `See you at the table with <span class="n">${guests}</span> of your favorite people`
       : "See you at the table";
