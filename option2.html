@@ -6,7 +6,7 @@
 <title>Friendsgiving Ribbon Garden</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #faf6ec;
@@ -42,7 +42,7 @@
     width: min(42vw, calc((100vh - 40px) * 0.558), 540px);
     aspect-ratio: 768 / 1376;
     max-width: 100%;
-    background: url("assets/hero-ribbon.jpg") center / cover no-repeat;
+    background: url("assets/hero-ribbon-full.jpg") center / cover no-repeat;
     container-type: inline-size;
     box-shadow: 0 1px 0 var(--line), 0 26px 50px -34px rgba(60, 64, 40, .55);
     display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
@@ -59,10 +59,10 @@
   .invite .time { font-style: italic; font-size: 3.7cqw; color: var(--ink-soft); }
   .scroll-cue { display: none; }
   .content { min-width: 0; padding-block: 20px; }
+  .content > section.block:first-child { padding-top: 36px; }
   .content section.block { padding-inline: 0; }
   .spread-wrap { border: 1px solid var(--line); border-radius: 4px; }
   .spread-wrap section.block { padding-inline: clamp(16px, 4vw, 48px); }
-  .details { flex-direction: column; margin-top: 36px; }
 
   /* Add to calendar */
   .cal { position: relative; margin-top: 3cqw; }
@@ -99,7 +99,7 @@
   section.block { max-width: 680px; margin: 0 auto; padding: 56px 16px; }
   .eyebrow {
     font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
-    letter-spacing: .32em; font-size: 26px; font-weight: 500; text-align: center; margin: 0;
+    letter-spacing: .32em; font-size: 26px; font-weight: 700; text-align: center; margin: 0;
   }
   .sub { text-align: center; font-style: italic; color: var(--ink-soft); margin: 6px 0 28px; }
   .flourish { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 14px 0 6px; color: var(--sage); }
@@ -187,7 +187,7 @@
   .course h3 {
     display: flex; align-items: center; gap: 16px; margin: 0 0 12px;
     font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
-    font-weight: 600; letter-spacing: .26em; font-size: 20px;
+    font-weight: 700; letter-spacing: .26em; font-size: 20px;
   }
   .course h3::before, .course h3::after { content: ""; flex: 1; height: 1px; background: var(--line); }
   .course h3 .count { font-family: "Crimson Pro", serif; font-variant: normal; letter-spacing: 0; font-style: italic; font-weight: 400; font-size: 16px; color: var(--sage); }
@@ -260,11 +260,6 @@
 </aside>
 
 <main class="content">
-  <div class="details">
-    <span class="place">KRISTINE &amp; DANIEL’S · 4198 ROSENBAUM AVE</span>
-    <span class="note">Please bring a dish you’re thankful for.</span>
-  </div>
-
 <!-- Sign-up -->
 <section class="block" id="bring">
   <p class="eyebrow">What You’re Bringing</p>
