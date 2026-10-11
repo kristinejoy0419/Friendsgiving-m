@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Friendsgiving Ribbon Garden</title>
+<title>Friendsgiving at Kristine &amp; Daniel's</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #faf6ec;
-    --paper-deep: #f1ecdd;
+    --paper: #f2ede0;
+    --paper-deep: #e9e3d1;
     --ink: #4f5538;
     --ink-soft: #6f7552;
     --sage: #8f9670;
     --sage-light: #c9ccb2;
     --line: #b9bc9c;
-    --white: #fffdf8;
+    --white: #fbf9f2;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -31,38 +31,25 @@
     font-variant-numeric: lining-nums;
   }
 
-  /* ---------- Layout: invite pinned on the left, the party on the right ---------- */
-  .layout {
-    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 clamp(24px, 4vw, 64px);
-    max-width: 1240px; margin: 0 auto; padding-inline: 16px; align-items: start;
-  }
-  .hero { position: sticky; top: 20px; padding-block: 20px; }
+  /* ---------- Hero: corner florals, ribbon frame, lots of open paper ---------- */
+  .hero { max-width: 1120px; margin: 0 auto; padding: 24px 16px 0; }
   .invite {
     position: relative;
-    width: min(42vw, calc((100vh - 40px) * 0.558), 540px);
-    aspect-ratio: 768 / 1376;
+    aspect-ratio: 16 / 10;
     max-width: 100%;
-    background: url("assets/hero-ribbon-full.jpg") center / cover no-repeat;
+    background: url("../assets/hero-wide.jpg") center / cover no-repeat;
     container-type: inline-size;
-    box-shadow: 0 1px 0 var(--line), 0 26px 50px -34px rgba(60, 64, 40, .55);
-    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-    padding-top: 52%;
+    box-shadow: 0 1px 0 var(--line), 0 22px 44px -30px rgba(60, 64, 40, .5);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center;
   }
-  .invite .lead { font-style: italic; font-size: 3.9cqw; color: var(--ink-soft); }
+  .invite .lead { font-style: italic; font-size: 1.9cqw; color: var(--ink-soft); }
   .invite h1 {
     font-family: "Pinyon Script", cursive; font-weight: 400;
-    font-size: 12.8cqw; line-height: 1.1; margin: 1cqw 0 4cqw; color: var(--ink);
+    font-size: 9.6cqw; line-height: 1.1; margin: .6cqw 0 2.4cqw; color: var(--ink);
   }
-  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 4.1cqw; letter-spacing: .07em; }
-  .invite .date span { display: block; font-size: 1.3em; letter-spacing: .04em; margin: .5cqw 0; }
-  .invite .time { font-style: italic; font-size: 3.7cqw; color: var(--ink-soft); }
-  .scroll-cue { display: none; }
-  .content { min-width: 0; padding-block: 20px; }
-  .content > section.block:first-child { padding-top: 36px; }
-  .content section.block { padding-inline: 0; }
-  .spread-wrap { border: 1px solid var(--line); border-radius: 4px; }
-  .spread-wrap section.block { padding-inline: clamp(16px, 4vw, 48px); }
+  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 2.3cqw; letter-spacing: .08em; }
+  .invite .time { font-style: italic; font-size: 2cqw; color: var(--ink-soft); }
 
   /* Add to calendar */
   .cal { position: relative; margin-top: 3cqw; }
@@ -99,7 +86,7 @@
   section.block { max-width: 680px; margin: 0 auto; padding: 56px 16px; }
   .eyebrow {
     font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
-    letter-spacing: .32em; font-size: 26px; font-weight: 700; text-align: center; margin: 0;
+    letter-spacing: .32em; font-size: 26px; font-weight: 500; text-align: center; margin: 0;
   }
   .sub { text-align: center; font-style: italic; color: var(--ink-soft); margin: 6px 0 28px; }
   .flourish { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 14px 0 6px; color: var(--sage); }
@@ -187,7 +174,7 @@
   .course h3 {
     display: flex; align-items: center; gap: 16px; margin: 0 0 12px;
     font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
-    font-weight: 700; letter-spacing: .26em; font-size: 20px;
+    font-weight: 600; letter-spacing: .26em; font-size: 20px;
   }
   .course h3::before, .course h3::after { content: ""; flex: 1; height: 1px; background: var(--line); }
   .course h3 .count { font-family: "Crimson Pro", serif; font-variant: normal; letter-spacing: 0; font-style: italic; font-weight: 400; font-size: 16px; color: var(--sage); }
@@ -217,17 +204,18 @@
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-  @media (max-width: 860px) {
-    .layout { grid-template-columns: minmax(0, 1fr); }
-    .hero { position: static; }
-    .invite { width: min(100%, 520px); margin: 0 auto; }
-    .scroll-cue { display: block; }
-  }
   @media (max-width: 560px) {
     body { font-size: 17px; }
     .row { grid-template-columns: minmax(0, 1fr); gap: 20px; }
     .stepper { width: max-content; }
+    .invite { aspect-ratio: 9 / 13; background-image: url("../assets/hero-tall.jpg"); }
+    .invite .lead { font-size: 3.9cqw; }
+    .invite h1 { font-size: 15.5cqw; margin: 1cqw 0 4cqw; }
+    .invite .date { font-size: 4.2cqw; letter-spacing: .05em; }
+    .invite .time { font-size: 4cqw; }
+    .cal { margin-top: 6cqw; }
     .cal-btn { font-size: 14px; }
+    .details { flex-direction: column; }
     .card { padding: 46px 22px 28px; border-radius: 90px 90px 8px 8px / 50px 50px 8px 8px; }
     .eyebrow { font-size: 22px; }
     .course li { flex-wrap: wrap; gap: 0 10px; }
@@ -240,26 +228,28 @@
 <body>
 
 <!-- Hero: the invite, reproduced as live text inside the floral frame -->
-<div class="layout">
-<aside class="hero">
+<header class="hero">
   <div class="invite">
     <div class="lead">Please join us for</div>
     <h1>Friendsgiving</h1>
-    <div class="date">SATURDAY<span>NOVEMBER 7TH, 2026</span></div>
+    <div class="date">SATURDAY, NOVEMBER 7TH, 2026</div>
     <div class="time">at 1 o’clock in the afternoon</div>
     <div class="cal">
       <button type="button" class="btn-ghost cal-btn" id="calBtn" aria-expanded="false" aria-controls="calMenu"><span class="ico" aria-hidden="true">&#10022;</span>Add to calendar</button>
       <div class="cal-menu" id="calMenu" hidden>
         <a id="calGoogle" target="_blank" rel="noopener">Google Calendar</a>
         <a id="calOutlook" target="_blank" rel="noopener">Outlook</a>
-        <a id="calIcs" href="assets/friendsgiving.ics" target="_blank" rel="noopener">Apple Calendar<small>or any app that opens .ics files</small></a>
+        <a id="calIcs" href="../assets/friendsgiving.ics" target="_blank" rel="noopener">Apple Calendar<small>or any app that opens .ics files</small></a>
       </div>
     </div>
   </div>
+  <div class="details">
+    <span class="place">KRISTINE &amp; DANIEL’S · 4198 ROSENBAUM AVE</span>
+    <span class="note">Please bring a dish you’re thankful for.</span>
+  </div>
   <a class="scroll-cue" href="#bring">add your dish</a>
-</aside>
+</header>
 
-<main class="content">
 <!-- Sign-up -->
 <section class="block" id="bring">
   <p class="eyebrow">What You’re Bringing</p>
@@ -308,8 +298,6 @@
     <div id="courses"></div>
   </section>
   <footer id="footer">See you at the table</footer>
-</div>
-</main>
 </div>
 
 <script>

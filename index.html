@@ -6,17 +6,17 @@
 <title>Friendsgiving at Kristine &amp; Daniel's</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #f2ede0;
-    --paper-deep: #e9e3d1;
+    --paper: #faf6ec;
+    --paper-deep: #f1ecdd;
     --ink: #4f5538;
     --ink-soft: #6f7552;
     --sage: #8f9670;
     --sage-light: #c9ccb2;
     --line: #b9bc9c;
-    --white: #fbf9f2;
+    --white: #fffdf8;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -31,25 +31,39 @@
     font-variant-numeric: lining-nums;
   }
 
-  /* ---------- Hero: corner florals, ribbon frame, lots of open paper ---------- */
-  .hero { max-width: 1120px; margin: 0 auto; padding: 24px 16px 0; }
+  /* ---------- Layout: invite pinned on the left, the party on the right ---------- */
+  .layout {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 clamp(24px, 4vw, 64px);
+    max-width: 1240px; margin: 0 auto; padding-inline: 16px; align-items: start;
+  }
+  .hero { position: sticky; top: 20px; padding-block: 20px; }
   .invite {
     position: relative;
-    aspect-ratio: 16 / 10;
+    width: min(42vw, calc((100vh - 40px) * 0.558), 540px);
+    aspect-ratio: 768 / 1376;
     max-width: 100%;
-    background: url("assets/hero-wide.jpg") center / cover no-repeat;
+    background: url("assets/hero-ribbon-full.jpg") center / cover no-repeat;
     container-type: inline-size;
-    box-shadow: 0 1px 0 var(--line), 0 22px 44px -30px rgba(60, 64, 40, .5);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 1px 0 var(--line), 0 26px 50px -34px rgba(60, 64, 40, .55);
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    padding-top: 52%;
     text-align: center;
   }
-  .invite .lead { font-style: italic; font-size: 1.9cqw; color: var(--ink-soft); }
+  .invite .lead { font-style: italic; font-size: 3.9cqw; color: var(--ink-soft); }
   .invite h1 {
     font-family: "Pinyon Script", cursive; font-weight: 400;
-    font-size: 9.6cqw; line-height: 1.1; margin: .6cqw 0 2.4cqw; color: var(--ink);
+    font-size: 12.8cqw; line-height: 1.1; margin: 1cqw 0 4cqw; color: var(--ink);
   }
-  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 2.3cqw; letter-spacing: .08em; }
-  .invite .time { font-style: italic; font-size: 2cqw; color: var(--ink-soft); }
+  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 4.1cqw; letter-spacing: .07em; }
+  .invite .date span { display: block; font-size: 1.3em; letter-spacing: .04em; margin: .5cqw 0; }
+  .invite .date span.day { font-size: 1em; letter-spacing: .07em; margin: 0; }
+  .invite .time { font-style: italic; font-size: 3.7cqw; color: var(--ink-soft); }
+  .scroll-cue { display: none; }
+  .content { min-width: 0; padding-block: 20px; }
+  .content > section.block:first-child { padding-top: 36px; }
+  .content section.block { padding-inline: 0; }
+  .spread-wrap { border: 1px solid var(--line); border-radius: 4px; }
+  .spread-wrap section.block { padding-inline: clamp(16px, 4vw, 48px); }
 
   /* Add to calendar */
   .cal { position: relative; margin-top: 3cqw; }
@@ -86,7 +100,7 @@
   section.block { max-width: 680px; margin: 0 auto; padding: 56px 16px; }
   .eyebrow {
     font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
-    letter-spacing: .32em; font-size: 26px; font-weight: 500; text-align: center; margin: 0;
+    letter-spacing: .32em; font-size: 26px; font-weight: 700; text-align: center; margin: 0;
   }
   .sub { text-align: center; font-style: italic; color: var(--ink-soft); margin: 6px 0 28px; }
   .flourish { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 14px 0 6px; color: var(--sage); }
@@ -174,7 +188,7 @@
   .course h3 {
     display: flex; align-items: center; gap: 16px; margin: 0 0 12px;
     font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase;
-    font-weight: 600; letter-spacing: .26em; font-size: 20px;
+    font-weight: 700; letter-spacing: .26em; font-size: 20px;
   }
   .course h3::before, .course h3::after { content: ""; flex: 1; height: 1px; background: var(--line); }
   .course h3 .count { font-family: "Crimson Pro", serif; font-variant: normal; letter-spacing: 0; font-style: italic; font-weight: 400; font-size: 16px; color: var(--sage); }
@@ -201,21 +215,25 @@
   .course li .party { font-style: normal; font-family: "Cormorant Garamond", serif; font-variant: small-caps; text-transform: lowercase; letter-spacing: .1em; font-size: 15px; color: var(--sage); }
 
   [hidden] { display: none !important; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .form-msg { text-align: center; font-style: italic; color: var(--ink); min-height: 1.5em; margin: 14px 0 0; }
+  .form-msg.error { color: #8a4b3a; }
+  .fine { text-align: center; font-style: italic; font-size: 15px; color: var(--sage); margin: 2px 0 0; }
+  button:disabled { opacity: .55; cursor: wait; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    .hero { position: static; }
+    .invite { width: min(100%, 520px); margin: 0 auto; }
+    .scroll-cue { display: block; }
+  }
   @media (max-width: 560px) {
     body { font-size: 17px; }
     .row { grid-template-columns: minmax(0, 1fr); gap: 20px; }
     .stepper { width: max-content; }
-    .invite { aspect-ratio: 9 / 13; background-image: url("assets/hero-tall.jpg"); }
-    .invite .lead { font-size: 3.9cqw; }
-    .invite h1 { font-size: 15.5cqw; margin: 1cqw 0 4cqw; }
-    .invite .date { font-size: 4.2cqw; letter-spacing: .05em; }
-    .invite .time { font-size: 4cqw; }
-    .cal { margin-top: 6cqw; }
     .cal-btn { font-size: 14px; }
-    .details { flex-direction: column; }
     .card { padding: 46px 22px 28px; border-radius: 90px 90px 8px 8px / 50px 50px 8px 8px; }
     .eyebrow { font-size: 22px; }
     .course li { flex-wrap: wrap; gap: 0 10px; }
@@ -228,12 +246,13 @@
 <body>
 
 <!-- Hero: the invite, reproduced as live text inside the floral frame -->
-<header class="hero">
+<div class="layout">
+<aside class="hero">
   <div class="invite">
-    <div class="lead">Please join us for</div>
-    <h1>Friendsgiving</h1>
-    <div class="date">SATURDAY, NOVEMBER 7TH, 2026</div>
-    <div class="time">at 1 o’clock in the afternoon</div>
+    <div class="lead" data-field="lead">Please join us for</div>
+    <h1 data-field="title">Friendsgiving</h1>
+    <div class="date"><span class="day" data-field="day">SATURDAY</span><span data-field="date">NOVEMBER 7TH, 2026</span></div>
+    <div class="time" data-field="time">at 1 o’clock in the afternoon</div>
     <div class="cal">
       <button type="button" class="btn-ghost cal-btn" id="calBtn" aria-expanded="false" aria-controls="calMenu"><span class="ico" aria-hidden="true">&#10022;</span>Add to calendar</button>
       <div class="cal-menu" id="calMenu" hidden>
@@ -243,13 +262,10 @@
       </div>
     </div>
   </div>
-  <div class="details">
-    <span class="place">KRISTINE &amp; DANIEL’S · 4198 ROSENBAUM AVE</span>
-    <span class="note">Please bring a dish you’re thankful for.</span>
-  </div>
   <a class="scroll-cue" href="#bring">add your dish</a>
-</header>
+</aside>
 
+<main class="content">
 <!-- Sign-up -->
 <section class="block" id="bring">
   <p class="eyebrow">What You’re Bringing</p>
@@ -280,10 +296,18 @@
       <div class="courses" role="radiogroup" aria-labelledby="courseLabel" id="courseOptions"></div>
     </div>
 
+    <div class="hp" aria-hidden="true">
+      <label for="website">Leave this empty</label>
+      <input type="text" id="website" tabindex="-1" autocomplete="off">
+    </div>
+
     <div class="actions">
       <button type="submit" class="btn-primary">Add to the spread</button>
       <button type="button" class="btn-ghost" id="suggestBtn"><span class="spark" aria-hidden="true">&#10022;</span>Suggest a dish</button>
     </div>
+
+    <p class="form-msg" id="formMsg" role="status"></p>
+    <p class="fine">Need to change your dish? Just let Kristine or Daniel know.</p>
 
     <div class="suggestion" id="suggestion" aria-live="polite"></div>
   </form>
@@ -299,7 +323,10 @@
   </section>
   <footer id="footer">See you at the table</footer>
 </div>
+</main>
+</div>
 
+<script src="config.js"></script>
 <script>
   const COURSES = ["Appetizers", "Mains", "Sides", "Desserts", "Drinks"];
 
@@ -343,19 +370,52 @@
     ],
   };
 
-  const STORE_KEY = "friendsgiving-spread-v2";
-  let entries = load();
+  // ---------- Data ----------
+  // Live mode: sign-ups are read from and written to the Google Sheet behind
+  // config.js. Without a Sheet URL the page runs as a preview with example
+  // entries kept in this browser only.
+  const SHEET_URL = ((window.FRIENDSGIVING_CONFIG || {}).sheetUrl || "").trim();
+  const LIVE = Boolean(SHEET_URL);
+  const STORE_KEY = "friendsgiving-preview-v1";
+  let entries = [];
   let lastAddedId = null;
+  let loaded = !LIVE;
 
-  function load() {
+  function loadPreview() {
     try {
       const raw = localStorage.getItem(STORE_KEY);
       if (raw) return JSON.parse(raw);
     } catch (e) {}
-    return SEED.map((e, i) => ({ ...e, id: "seed" + i, seed: true }));
+    return SEED.map((e, i) => ({ ...e, id: "seed" + i }));
   }
-  function save() {
+  function savePreview() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(entries)); } catch (e) {}
+  }
+
+  async function fetchSheet() {
+    const res = await fetch(SHEET_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    entries = (data.entries || []).map((e, i) => ({
+      id: "s" + i,
+      name: String(e.name || ""), dish: String(e.dish || ""),
+      course: COURSES.includes(e.course) ? e.course : "Sides",
+      party: Number(e.party) || 1,
+    })).filter(e => e.name && e.dish);
+    if (data.event) applyEvent(data.event);
+    loaded = true;
+    render();
+  }
+
+  async function postEntry(entry, honeypot) {
+    const res = await fetch(SHEET_URL, {
+      method: "POST",
+      // text/plain keeps this a "simple" request, which Apps Script accepts cross-origin
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ ...entry, website: honeypot }),
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || "Not saved");
   }
 
   // Course pills
@@ -379,6 +439,11 @@
 
   function render() {
     const wrap = document.getElementById("courses");
+    if (!loaded) {
+      wrap.innerHTML = `<p class="empty">Setting the table…</p>`;
+      document.getElementById("tally").textContent = "";
+      return;
+    }
     wrap.innerHTML = COURSES.map(c => {
       const items = entries.filter(e => e.course === c);
       const list = items.length
@@ -387,7 +452,6 @@
               <span class="dish">${esc(e.dish)}</span>
               <span class="dots"></span>
               <span class="who">${esc(e.name)}${(e.party || 1) > 1 ? ` <span class="party">party of ${e.party}</span>` : ""}</span>
-              ${e.seed ? "" : `<button class="remove" data-id="${e.id}" aria-label="Remove ${esc(e.dish)}">&times;</button>`}
             </li>`).join("")}</ul>`
         : `<p class="empty">Nothing here yet — up for grabs.</p>`;
       return `<div class="course"><h3>${c} <span class="count">${items.length}</span></h3>${list}</div>`;
@@ -397,27 +461,41 @@
     const guests = headcount();
     document.getElementById("tally").textContent =
       `${n} dish${n === 1 ? "" : "es"} and ${guests} guest${guests === 1 ? "" : "s"}, so far`;
-    document.getElementById("footer").innerHTML =
-      `See you at the table with <span class="n">${guests}</span> of your favorite people`;
+    document.getElementById("footer").innerHTML = guests
+      ? `See you at the table with <span class="n">${guests}</span> of your favorite people`
+      : "See you at the table";
   }
 
-  document.getElementById("courses").addEventListener("click", e => {
-    const btn = e.target.closest(".remove");
-    if (!btn) return;
-    entries = entries.filter(x => x.id !== btn.dataset.id);
-    save(); render();
-  });
+  const formMsg = document.getElementById("formMsg");
+  const submitBtn = document.querySelector("#dishForm button[type=submit]");
+  function say(text, isError) { formMsg.textContent = text; formMsg.classList.toggle("error", Boolean(isError)); }
 
-  document.getElementById("dishForm").addEventListener("submit", e => {
+  document.getElementById("dishForm").addEventListener("submit", async e => {
     e.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const dish = document.getElementById("dish").value.trim();
+    const name = document.getElementById("name").value.trim().slice(0, 60);
+    const dish = document.getElementById("dish").value.trim().slice(0, 80);
     const course = (document.querySelector("input[name=course]:checked") || {}).value;
     if (!name || !dish || !course) return;
     const entry = { id: "u" + Date.now(), name, dish, course, party: clampParty(partyEl.value) };
+
+    if (LIVE) {
+      submitBtn.disabled = true;
+      say("Adding your dish…");
+      try {
+        await postEntry(entry, document.getElementById("website").value);
+      } catch (err) {
+        submitBtn.disabled = false;
+        say("That didn’t save. Check your connection and try again.", true);
+        return;
+      }
+      submitBtn.disabled = false;
+    }
+
     entries.push(entry);
     lastAddedId = entry.id;
-    save(); render();
+    if (!LIVE) savePreview();
+    render();
+    say(`Thanks, ${name}! ${dish} is on the spread.`);
     document.getElementById("dish").value = "";
     partyEl.value = 1;
     document.querySelectorAll("input[name=course]").forEach(r => r.checked = false);
@@ -425,9 +503,9 @@
     document.getElementById("spread").scrollIntoView({ behavior: "smooth" });
   });
 
-  // ---------- Mock AI suggestion ----------
-  // In the real build this would call an LLM with the current spread; here it
-  // reasons over the same data locally so the interaction can be previewed.
+  // ---------- Dish suggestion ----------
+  // Looks at which courses are short and suggests something that doesn't
+  // repeat what's already on the spread.
   const sugEl = document.getElementById("suggestion");
   let skipped = new Set();
 
@@ -490,18 +568,35 @@
   }
   document.getElementById("suggestBtn").addEventListener("click", suggest);
 
-  // ---------- Add to calendar ----------
+  // ---------- Event details (editable from the Sheet's Event tab) ----------
   const EVENT = {
     title: "Friendsgiving at Kristine & Daniel's",
-    start: "20261107T130000", end: "20261107T170000",
+    start: "2026-11-07T13:00", end: "2026-11-07T17:00",
     location: "4198 Rosenbaum Ave",
     details: "Please bring a dish you're thankful for.",
   };
   const enc = encodeURIComponent;
-  document.getElementById("calGoogle").href =
-    `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${enc(EVENT.title)}&dates=${EVENT.start}/${EVENT.end}&location=${enc(EVENT.location)}&details=${enc(EVENT.details)}`;
-  document.getElementById("calOutlook").href =
-    `https://outlook.live.com/calendar/0/action/compose?subject=${enc(EVENT.title)}&startdt=2026-11-07T13:00:00&enddt=2026-11-07T17:00:00&location=${enc(EVENT.location)}&body=${enc(EVENT.details)}`;
+  const compact = iso => iso.replace(/[-:]/g, "") + "00";
+
+  function applyEvent(ev) {
+    document.querySelectorAll("[data-field]").forEach(el => {
+      const v = ev[el.dataset.field];
+      if (typeof v === "string" && v.trim()) el.textContent = v.trim();
+    });
+    ["start", "end", "location", "details"].forEach(k => {
+      if (typeof ev[k] === "string" && ev[k].trim()) EVENT[k] = ev[k].trim();
+    });
+    if (typeof ev.calendarTitle === "string" && ev.calendarTitle.trim()) EVENT.title = ev.calendarTitle.trim();
+    setCalendarLinks();
+  }
+
+  function setCalendarLinks() {
+    document.getElementById("calGoogle").href =
+      `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${enc(EVENT.title)}&dates=${compact(EVENT.start)}/${compact(EVENT.end)}&location=${enc(EVENT.location)}&details=${enc(EVENT.details)}`;
+    document.getElementById("calOutlook").href =
+      `https://outlook.live.com/calendar/0/action/compose?subject=${enc(EVENT.title)}&startdt=${EVENT.start}:00&enddt=${EVENT.end}:00&location=${enc(EVENT.location)}&body=${enc(EVENT.details)}`;
+  }
+  setCalendarLinks();
 
   const calBtn = document.getElementById("calBtn"), calMenu = document.getElementById("calMenu");
   calBtn.addEventListener("click", e => {
@@ -516,7 +611,18 @@
     if (e.key === "Escape" && !calMenu.hidden) { calMenu.hidden = true; calBtn.setAttribute("aria-expanded", "false"); calBtn.focus(); }
   });
 
-  render();
+  if (LIVE) {
+    render();
+    fetchSheet().catch(() => {
+      loaded = true;
+      render();
+      document.getElementById("courses").innerHTML =
+        `<p class="empty">The spread couldn’t load right now. Refresh to try again.</p>`;
+    });
+  } else {
+    entries = loadPreview();
+    render();
+  }
 </script>
 </body>
 </html>
