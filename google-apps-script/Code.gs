@@ -12,7 +12,7 @@ const COURSES = ['Appetizers', 'Mains', 'Sides', 'Desserts', 'Drinks'];
 
 // Dish suggestions use the Claude API. Store your key under
 // Project Settings → Script properties as ANTHROPIC_API_KEY (never in this file).
-const CLAUDE_MODEL = 'claude-opus-5-5';
+const CLAUDE_MODEL = 'claude-haiku-5-5'; // smallest, lowest-cost Claude model
 const SUGGESTIONS_PER_HOUR = 60; // simple cost guard across all guests
 
 /** Run once from the Apps Script editor to create the tabs and default event text. */
@@ -115,12 +115,10 @@ function suggest(skip) {
     headers: {
       'x-api-key': key,
       'anthropic-version': '2023-06-01',
-      'anthropic-beta': 'server-side-fallback-2026-07-01',
     },
     payload: JSON.stringify({
       model: CLAUDE_MODEL,
       max_tokens: 4000,
-      fallbacks: 'default',
       output_config: {
         effort: 'low',
         format: {

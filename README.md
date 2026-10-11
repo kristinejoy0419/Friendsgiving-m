@@ -27,7 +27,7 @@ The **Suggest a dish** button asks Claude for an idea based on what's already in
 3. Property: `ANTHROPIC_API_KEY`, Value: your key. Save.
 4. Run any function once (e.g. **setup** again) and approve the new permission to connect to an external service.
 
-Each suggestion is one short request, a fraction of a cent. The script caps suggestions at 60 per hour across all guests (change `SUGGESTIONS_PER_HOUR` in `Code.gs`). Without a key, the button still works using built-in ideas.
+Suggestions use Claude Haiku 5.5, the smallest and cheapest Claude model; each one costs well under a tenth of a cent. The script caps suggestions at 60 per hour across all guests (change `SUGGESTIONS_PER_HOUR` in `Code.gs`). Without a key, the button still works using built-in ideas.
 
 ### 4. Turn on the website
 1. In this GitHub repo, open **Settings → Pages**.
