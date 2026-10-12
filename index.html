@@ -559,14 +559,28 @@
     return { dish: String(data.dish), course: data.course, why: String(data.why || "") };
   }
 
+  // The host's picks: shown first, in order, until someone signs up for them.
+  // After these, the AI takes over.
+  const HOST_PICKS = [
+    { dish: "Caviar & kettle chips", course: "Appetizers", match: /caviar/i,
+      why: "High-low perfection. Nobody has claimed it yet, and somebody has to." },
+    { dish: "A tower of espresso martinis", course: "Drinks", match: /espresso\s*martini/i,
+      why: "Dinner at 1, second wind by 4. Every Friendsgiving needs a little caffeine and vodka." },
+  ];
+  function nextHostPick() {
+    return HOST_PICKS.find(p => !skipped.has(p.dish) && !entries.some(e => p.match.test(e.dish))) || null;
+  }
+
   let suggesting = false;
   async function suggest() {
     if (suggesting) return;
     suggesting = true;
     sugEl.classList.add("show");
     sugEl.innerHTML = `<p class="thinking">Looking over the spread<span>.</span><span>.</span><span>.</span></p>`;
-    let s = null;
-    if (LIVE) {
+    let s = nextHostPick();
+    if (s) {
+      await new Promise(r => setTimeout(r, 700));
+    } else if (LIVE) {
       try { s = await askClaude(); } catch (e) { s = null; }
       if (s && !COURSES.includes(s.course)) s = null;
     } else {
