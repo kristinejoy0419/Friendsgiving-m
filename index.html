@@ -31,22 +31,19 @@
     font-variant-numeric: lining-nums;
   }
 
-  /* ---------- Layout: invite pinned on the left, the party on the right ---------- */
-  .layout {
-    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 clamp(24px, 4vw, 64px);
-    max-width: 1240px; margin: 0 auto; padding-inline: 16px; align-items: start;
-  }
-  .hero { position: sticky; top: 20px; padding-block: 20px; }
+  /* ---------- Layout: one column, invite card on top, then the form, then the spread ---------- */
+  .hero { padding: 24px 16px 0; }
   .invite {
     position: relative;
-    width: min(42vw, calc((100vh - 40px) * 0.558), 540px);
+    width: min(100%, 480px);
+    margin: 0 auto;
     aspect-ratio: 768 / 1376;
     max-width: 100%;
     background: url("assets/hero-ribbon-full.jpg") center / cover no-repeat;
     container-type: inline-size;
     box-shadow: 0 1px 0 var(--line), 0 26px 50px -34px rgba(60, 64, 40, .55);
     display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-    padding-top: 52%;
+    padding-top: calc(0.52 * min(100vw - 32px, 480px));
     text-align: center;
   }
   .invite .lead { font-style: italic; font-size: 3.9cqw; color: var(--ink-soft); }
@@ -58,12 +55,6 @@
   .invite .date span { display: block; font-size: 1.3em; letter-spacing: .04em; margin: .5cqw 0; }
   .invite .date span.day { font-size: 1em; letter-spacing: .07em; margin: 0; }
   .invite .time { font-style: italic; font-size: 3.7cqw; color: var(--ink-soft); }
-  .scroll-cue { display: none; }
-  .content { min-width: 0; padding-block: 20px; }
-  .content > section.block:first-child { padding-top: 36px; }
-  .content section.block { padding-inline: 0; }
-  .spread-wrap { border: 1px solid var(--line); border-radius: 4px; }
-  .spread-wrap section.block { padding-inline: clamp(16px, 4vw, 48px); }
 
   /* Add to calendar */
   .cal { position: relative; margin-top: 3cqw; }
@@ -223,12 +214,6 @@
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-  @media (max-width: 860px) {
-    .layout { grid-template-columns: minmax(0, 1fr); }
-    .hero { position: static; }
-    .invite { width: min(100%, 520px); margin: 0 auto; }
-    .scroll-cue { display: block; }
-  }
   @media (max-width: 560px) {
     body { font-size: 17px; }
     .row { grid-template-columns: minmax(0, 1fr); gap: 20px; }
@@ -246,8 +231,7 @@
 <body>
 
 <!-- Hero: the invite, reproduced as live text inside the floral frame -->
-<div class="layout">
-<aside class="hero">
+<header class="hero">
   <div class="invite">
     <div class="lead" data-field="lead">Please join us for</div>
     <h1 data-field="title">Friendsgiving</h1>
@@ -263,9 +247,9 @@
     </div>
   </div>
   <a class="scroll-cue" href="#bring">add your dish</a>
-</aside>
+</header>
 
-<main class="content">
+<main>
 <!-- Sign-up -->
 <section class="block" id="bring">
   <p class="eyebrow">What You’re Bringing</p>
@@ -324,7 +308,6 @@
   <footer id="footer">See you at the table</footer>
 </div>
 </main>
-</div>
 
 <script src="config.js"></script>
 <script>

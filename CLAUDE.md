@@ -6,5 +6,5 @@
 - Prefer free or lowest-cost options (e.g. the smallest AI model) unless told otherwise.
 
 # Project notes
-- `index.html` is the guest page, served by GitHub Pages from `main` / root.
+- `index.html` is the guest page (stacked: ribbon invite card on top, then the form, then The Spread), served by GitHub Pages from `main` / root.
 - Sign-ups and invite text live in the Google Sheet "Friendsgiving 2026" (ID `1DqKRaJ7trLaMsTyTH7bHHzt-tJOgeT3uiokQ94zqj2Y`), read and written through the Apps Script web app in `google-apps-script/Code.gs`. It runs as a standalone Apps Script project ("Untitled project" at script.google.com, created from `google-apps-script/Code-standalone.gs`), deployed as a web app whose `/exec` URL is in `config.js`. After changing the script, redeploy with Deploy → Manage deployments → Edit → New version so the URL stays the same.
