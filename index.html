@@ -33,28 +33,48 @@
 
   /* ---------- Layout: one column, invite card on top, then the form, then the spread ---------- */
   .hero { padding: 24px 16px 0; }
+  /* Wide card on computers and tablets: bow centered, flowers in the corners */
   .invite {
     position: relative;
-    width: min(100%, 480px);
+    width: 100%;
+    max-width: 1240px;
     margin: 0 auto;
-    aspect-ratio: 768 / 1376;
-    max-width: 100%;
-    background: url("assets/hero-ribbon-full.jpg") center / cover no-repeat;
+    aspect-ratio: 1600 / 1000;
+    background: url("assets/hero-ribbon-wide.jpg") center / cover no-repeat;
     container-type: inline-size;
     box-shadow: 0 1px 0 var(--line), 0 26px 50px -34px rgba(60, 64, 40, .55);
-    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-    padding-top: calc(0.52 * min(100vw - 32px, 480px));
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding-top: 2%;
     text-align: center;
   }
-  .invite .lead { font-style: italic; font-size: 3.9cqw; color: var(--ink-soft); }
+  .invite .lead { font-style: italic; font-size: 1.9cqw; color: var(--ink-soft); }
   .invite h1 {
     font-family: "Pinyon Script", cursive; font-weight: 400;
-    font-size: 12.8cqw; line-height: 1.1; margin: 1cqw 0 4cqw; color: var(--ink);
+    font-size: 8.4cqw; line-height: 1.1; margin: .4cqw 0 2.2cqw; color: var(--ink);
   }
-  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 4.1cqw; letter-spacing: .07em; }
-  .invite .date span { display: block; font-size: 1.3em; letter-spacing: .04em; margin: .5cqw 0; }
-  .invite .date span.day { font-size: 1em; letter-spacing: .07em; margin: 0; }
-  .invite .time { font-style: italic; font-size: 3.7cqw; color: var(--ink-soft); }
+  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 2.3cqw; letter-spacing: .07em; }
+  .invite .date span.day::after { content: ", "; }
+  .invite .time { font-style: italic; font-size: 1.9cqw; color: var(--ink-soft); margin-top: .3cqw; }
+  .invite .cal { margin-top: 2.4cqw; }
+
+  /* Tall card on phones */
+  @media (max-width: 699px) {
+    .invite {
+      max-width: 480px;
+      aspect-ratio: 768 / 1376;
+      background-image: url("assets/hero-ribbon-full.jpg");
+      justify-content: flex-start;
+      padding-top: calc(0.52 * min(100vw - 32px, 480px));
+    }
+    .invite .lead { font-size: 3.9cqw; }
+    .invite h1 { font-size: 12.8cqw; margin: 1cqw 0 4cqw; }
+    .invite .date { font-size: 4.1cqw; }
+    .invite .date span { display: block; font-size: 1.3em; letter-spacing: .04em; margin: .5cqw 0; }
+    .invite .date span.day { font-size: 1em; letter-spacing: .07em; margin: 0; }
+    .invite .date span.day::after { content: none; }
+    .invite .time { font-size: 3.7cqw; margin-top: 0; }
+    .invite .cal { margin-top: 3cqw; }
+  }
 
   /* Add to calendar */
   .cal { position: relative; margin-top: 3cqw; }
