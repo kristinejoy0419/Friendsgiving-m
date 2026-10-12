@@ -1,6 +1,7 @@
 # Working with the owner of this repo
 
 - The owner wants to be as hands-off as possible. Do every step you can yourself (code, commits, pushes, Google Drive files, config). Only hand over steps that truly need their own login or approval, and when you do, give short numbered click-by-click instructions with direct links.
+- When giving instructions, describe exactly where each thing is on screen (which corner, which menu, what the button looks like, what it's labeled), as if they've never seen the app. Never write a bare path like "Settings → X → Y" without saying where Settings is.
 - Don't ask them to paste secrets (API keys) into chat or into code; keys go in Apps Script → Script properties.
 - Prefer free or lowest-cost options (e.g. the smallest AI model) unless told otherwise.
 
