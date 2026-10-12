@@ -7,4 +7,4 @@
 
 # Project notes
 - `index.html` is the guest page, served by GitHub Pages from `main` / root.
-- Sign-ups and invite text live in the Google Sheet "Friendsgiving 2026" (ID `1DqKRaJ7trLaMsTyTH7bHHzt-tJOgeT3uiokQ94zqj2Y`), read and written through the Apps Script web app in `google-apps-script/Code.gs`. Its `/exec` URL goes in `config.js`.
+- Sign-ups and invite text live in the Google Sheet "Friendsgiving 2026" (ID `1DqKRaJ7trLaMsTyTH7bHHzt-tJOgeT3uiokQ94zqj2Y`), read and written through the Apps Script web app in `google-apps-script/Code.gs`. It runs as a standalone Apps Script project ("Untitled project" at script.google.com, created from `google-apps-script/Code-standalone.gs`), deployed as a web app whose `/exec` URL is in `config.js`. After changing the script, redeploy with Deploy → Manage deployments → Edit → New version so the URL stays the same.
