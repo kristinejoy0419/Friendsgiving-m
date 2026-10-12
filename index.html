@@ -301,11 +301,6 @@
       <div class="courses" role="radiogroup" aria-labelledby="courseLabel" id="courseOptions"></div>
     </div>
 
-    <div class="hp" aria-hidden="true">
-      <label for="website">Leave this empty</label>
-      <input type="text" id="website" tabindex="-1" autocomplete="off">
-    </div>
-
     <div class="actions">
       <button type="submit" class="btn-primary">Add to the spread</button>
       <button type="button" class="btn-ghost" id="suggestBtn"><span class="spark" aria-hidden="true">&#10022;</span>Suggest a dish</button>
@@ -405,12 +400,12 @@
     render();
   }
 
-  async function postEntry(entry, honeypot) {
+  async function postEntry(entry) {
     const res = await fetch(SHEET_URL, {
       method: "POST",
       // text/plain keeps this a "simple" request, which Apps Script accepts cross-origin
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ ...entry, website: honeypot }),
+      body: JSON.stringify({ name: entry.name, dish: entry.dish, course: entry.course, party: entry.party }),
     });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || "Not saved");
@@ -481,7 +476,7 @@
       submitBtn.disabled = true;
       say("Adding your dish…");
       try {
-        await postEntry(entry, document.getElementById("website").value);
+        await postEntry(entry);
       } catch (err) {
         submitBtn.disabled = false;
         say("That didn’t save. Check your connection and try again.", true);
@@ -495,6 +490,8 @@
     if (!LIVE) savePreview();
     render();
     say(`Thanks, ${name}! ${dish} is on the spread.`);
+    // Reload from the Sheet so the page always shows what was really saved
+    if (LIVE) setTimeout(() => fetchSheet().catch(() => {}), 1500);
     document.getElementById("dish").value = "";
     partyEl.value = 1;
     document.querySelectorAll("input[name=course]").forEach(r => r.checked = false);
