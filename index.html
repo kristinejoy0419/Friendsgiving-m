@@ -479,7 +479,7 @@
         await postEntry(entry);
       } catch (err) {
         submitBtn.disabled = false;
-        say("That didn’t save. Check your connection and try again.", true);
+        say(`That didn’t save. Check your connection and try again. (${String(err && err.message || err).slice(0, 80)})`, true);
         return;
       }
       submitBtn.disabled = false;
