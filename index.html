@@ -567,8 +567,39 @@
     { dish: "A tower of espresso martinis", course: "Drinks", match: /espresso\s*martini/i,
       why: "Dinner at 1, second wind by 4. Every Friendsgiving needs a little caffeine and vodka." },
   ];
+  // More host favorites, mixed in with the AI's ideas (every other suggestion)
+  // once the picks above are taken or passed on. Each shows once per visit,
+  // except champagne, which comes back a few times. A favorite stops showing
+  // once someone signs up for it (champagne keeps going: more is better).
+  const HOST_FAVORITES = [
+    { dish: "A bag of oysters", course: "Appetizers", match: /oyster/i,
+      why: "Shuck it, slurp it, call it a holiday." },
+    { dish: "Cocina de Yaasil cookies", course: "Desserts", match: /yaasil/i,
+      why: "The cookie box everyone will hover over all afternoon." },
+    { dish: "A bottle of champagne", course: "Drinks", match: /champagne/i, times: 3, always: true,
+      why: "There is no such thing as too much champagne at Friendsgiving." },
+    { dish: "A tray of tequila shots with lime", course: "Drinks", match: /tequila/i,
+      why: "For the toast after the toast. Lime included, salt optional." },
+    { dish: "ICING ON THE CAKE banana cake", course: "Desserts", match: /banana cake|icing on the cake/i,
+      why: "Literally the icing on the cake of the whole spread." },
+  ];
+  const favShown = new Map();
+  let turn = 0;
+  const claimed = re => entries.some(e => re.test(e.dish));
+
   function nextHostPick() {
-    return HOST_PICKS.find(p => !skipped.has(p.dish) && !entries.some(e => p.match.test(e.dish))) || null;
+    const pick = HOST_PICKS.find(p => !skipped.has(p.dish) && !claimed(p.match));
+    if (pick) return pick;
+    turn += 1;
+    if (turn % 2 === 0) return null; // AI's turn
+    const left = HOST_FAVORITES.filter(f =>
+      (favShown.get(f.dish) || 0) < (f.times || 1) && (f.always || !claimed(f.match)));
+    if (!left.length) return null;
+    // Weighted by showings left, so champagne turns up more often
+    const bag = left.flatMap(f => Array((f.times || 1) - (favShown.get(f.dish) || 0)).fill(f));
+    const f = bag[Math.floor(Math.random() * bag.length)];
+    favShown.set(f.dish, (favShown.get(f.dish) || 0) + 1);
+    return f;
   }
 
   let suggesting = false;
