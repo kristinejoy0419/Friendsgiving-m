@@ -39,28 +39,29 @@
     width: 100%;
     max-width: 1240px;
     margin: 0 auto;
-    aspect-ratio: 1600 / 1000;
+    aspect-ratio: 1600 / 894;
     background: url("assets/hero-ribbon-wide.jpg") center / cover no-repeat;
     container-type: inline-size;
     box-shadow: 0 1px 0 var(--line), 0 26px 50px -34px rgba(60, 64, 40, .55);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding-top: 2%;
+    padding-bottom: 5%;
     text-align: center;
   }
-  .invite .lead { font-style: italic; font-size: 1.9cqw; color: var(--ink-soft); }
+  .invite .lead { font-style: italic; font-size: 1.45cqw; color: var(--ink-soft); }
   .invite h1 {
     font-family: "Pinyon Script", cursive; font-weight: 400;
-    font-size: 8.4cqw; line-height: 1.1; margin: .4cqw 0 2.2cqw; color: var(--ink);
+    font-size: 6.6cqw; line-height: 1.1; margin: .3cqw 0 1.6cqw; color: var(--ink);
   }
-  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 2.3cqw; letter-spacing: .07em; }
+  .invite .date { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 1.8cqw; letter-spacing: .07em; }
   .invite .date span.day::after { content: ", "; }
-  .invite .time { font-style: italic; font-size: 1.9cqw; color: var(--ink-soft); margin-top: .3cqw; }
-  .invite .cal { margin-top: 2.4cqw; }
+  .invite .time { font-style: italic; font-size: 1.45cqw; color: var(--ink-soft); margin-top: .2cqw; }
+  .invite .cal { margin-top: 2cqw; }
 
   /* Tall card on phones */
   @media (max-width: 699px) {
     .invite {
       max-width: 480px;
+      padding-bottom: 0;
       aspect-ratio: 768 / 1376;
       background-image: url("assets/hero-ribbon-full.jpg");
       justify-content: flex-start;
