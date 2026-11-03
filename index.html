@@ -339,10 +339,10 @@
 
 <script src="config.js"></script>
 <script>
-  const COURSES = ["Appetizers", "Mains", "Sides", "Desserts", "Drinks"];
+  const COURSES = ["Appetizers", "Mains", "Sides", "Desserts", "Drinks", "Fun"];
 
   // What a balanced table looks like for ~15 guests
-  const TARGET = { Appetizers: 3, Mains: 2, Sides: 5, Desserts: 3, Drinks: 3 };
+  const TARGET = { Appetizers: 3, Mains: 2, Sides: 5, Desserts: 3, Drinks: 3, Fun: 2 };
 
 
   // Mock "AI" pantry: ideas per course, tagged so we can avoid near-duplicates
@@ -372,6 +372,12 @@
       ["A full-bodied red", "red"], ["Espresso martinis", "espresso"],
       ["Hot mulled wine", "wine"], ["Sparkling cranberry spritz (zero-proof)", "na"],
       ["Bourbon apple cider punch", "spirits"], ["Chai with oat milk", "warm"],
+    ],
+    Fun: [
+      ["A deck of party games", "games"], ["A pie-eating contest", "contest"],
+      ["A Polaroid camera with extra film", "polaroid"], ["A karaoke playlist and a mic", "karaoke"],
+      ["A gratitude jar with pens and cards", "gratitude"], ["Turkey trivia night", "trivia"],
+      ["A football pool for the game", "football"],
     ],
   };
 
@@ -538,8 +544,11 @@
   function explain(c, counts, gap) {
     const has = counts[c];
     const others = entries.filter(e => e.course === c).map(e => e.dish.toLowerCase());
-    if (has === 0) return `No one has claimed ${c.toLowerCase()} yet, so this would fill an empty spot on the table.`;
+    if (has === 0) return `No one has claimed ${c === "Fun" ? "anything fun" : c.toLowerCase()} yet, so this would fill an empty spot on the table.`;
     const list = others.slice(0, 2).join(" and ");
+    if (c === "Fun") return gap > 0
+      ? `Fun is a little light (${has} so far: ${list}). This adds something to do between plates.`
+      : `The fun is well covered, but this doesn’t repeat ${list}.`;
     if (gap > 0) return `${c} are a little light (${has} so far: ${list}). This goes well with them without doubling up.`;
     return `Everything’s well covered, so here’s one more ${c.toLowerCase().replace(/s$/, "")} that doesn’t repeat ${list}.`;
   }
